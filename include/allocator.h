@@ -6,12 +6,11 @@
 #include <list>
 #include "block.h"
 
-using namespace std;
-
 class Allocator {
 private:
     int totalSize;              // total memory size
-    list<Block> blocks;    // list of memory blocks
+    std::list<Block> blocks;    // list of memory blocks
+    int nextId;
 
 public:
     // constructor

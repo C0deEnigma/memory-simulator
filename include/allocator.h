@@ -11,6 +11,11 @@ private:
     int totalSize;              // total memory size
     std::list<Block> blocks;    // list of memory blocks
     int nextId;
+    int allocRequests;
+    int allocFailures;
+
+    // Coalesce neighbour blocks if they are free after deallocation
+    void coalesce(std::list<Block>::iterator it);
 
 public:
     // constructor
@@ -26,6 +31,9 @@ public:
 
     // debugging or visualization
     void dumpMemory();
+
+    // Calculates and Prints internal fragmentation, external fragmenation, allocation failure rate and memory utilization
+    void printStats();
 };
 
 #endif

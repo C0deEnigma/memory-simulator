@@ -69,7 +69,7 @@ int main()
         else if (cmd=="dump")
             allocator.dumpMemory();
 
-        else if (cmd=="stats")
+        else if (cmd=="stats")  
             allocator.printStats();
 
         else if (cmd=="exit")

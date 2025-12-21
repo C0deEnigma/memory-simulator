@@ -9,6 +9,9 @@ Allocator::Allocator(int size)
 {
     totalSize=size;
     nextId=1;                 // Starting with ID=1
+    allocRequests=0;          // Initially the allocation requests are zero
+    allocFailures=0;           // Initially the allocation failures are zero
+
 
     Block initial_block;          // Creat an initial_block block of entire memory
     initial_block.start=0;      // Memory starts at zero, we use integer adress since it is a simulation not real memory
@@ -31,8 +34,12 @@ Allocator::Allocator(int size)
 
 int Allocator::allocateFirstFit(int req_size) 
 {
-    if (req_size <= 0) return -1;
-
+    allocRequests++;
+    if (req_size <= 0)
+    {
+        allocFailures++; 
+        return -1;
+    }
     for(auto it=blocks.begin() ; it!=blocks.end() ; ++it)
     {
         if(it->free)
@@ -61,6 +68,7 @@ int Allocator::allocateFirstFit(int req_size)
             }
         }
     }
+    allocFailures++; 
     return -1; // placeholder
 }
 
@@ -72,7 +80,12 @@ int Allocator::allocateFirstFit(int req_size)
 
 int Allocator::allocateBestFit(int req_size) 
 {
-    if (req_size <= 0) return -1;
+    allocRequests++;
+    if (req_size <= 0)
+    { 
+        allocFailures++; 
+        return -1;
+    }
 
     auto best_it=blocks.end();
     int min_remaining=INT_MAX;
@@ -113,6 +126,7 @@ int Allocator::allocateBestFit(int req_size)
             return newId;
         }
     }
+    allocFailures++; 
     return -1; // placeholder
 }
 
@@ -124,7 +138,12 @@ int Allocator::allocateBestFit(int req_size)
 
 int Allocator::allocateWorstFit(int req_size) 
 {
-    if (req_size <= 0) return -1;
+    allocRequests++;
+    if (req_size <= 0) 
+    {
+        allocFailures++; 
+        return -1;
+    }
 
     auto worst_it = blocks.end();
     int max_remaining = INT_MIN;
@@ -165,6 +184,7 @@ int Allocator::allocateWorstFit(int req_size)
             return newId;
         }
     }
+    allocFailures++; 
     return -1; // placeholder
 }
 
@@ -236,4 +256,32 @@ void Allocator::dumpMemory()
         else 
             cout<<"USED "<<"(ID = "<<block.id<<")"<<endl;
     }
+}
+
+//
+void Allocator::printStats()
+{
+    cout<<"Internal Fragmentation  = 0"<<endl; // Internal Fragmentation is zero in variable partitioning
+    int free_size=0;
+    int largest_free_size=0;
+    for(auto &block:blocks)
+        if(block.free)
+        {
+            free_size+=block.size;
+            largest_free_size=max(largest_free_size,block.size);
+        }
+
+    cout<<"Total Memory = "<<totalSize<<endl;
+    cout<<"Total Memory Used = "<<totalSize-free_size<<endl;
+    cout<<"Memory Utilization = "<<(double)(totalSize-free_size)/totalSize*100<<"%"<<endl;
+
+    if(free_size>0)
+        cout<<"External Fragmentation = "<<(double)(free_size-largest_free_size)/free_size*100<<"%"<<endl;
+    else
+        cout<<"External Fragmentation = 0%"<<endl;
+
+    if(allocRequests>0)
+        cout<<"Allocation Failure Rate = "<<(double)(allocFailures)/allocRequests*100<<"%"<<endl;  // To avoid ZeroDivisionEror
+    else 
+        cout<<"Allocation Failure Rate = 0%"<<endl;
 }

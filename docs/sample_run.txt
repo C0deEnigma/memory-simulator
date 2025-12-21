@@ -1,0 +1,49 @@
+kaushik@DESKTOP-4Q2P2D3:~/memory-simulator$ ./memory-simulator
+Enter total memory size: 1024
+
+Commands:
+  malloc firstFit <size>
+  malloc bestFit <size>
+  malloc worstFit <size>
+  free <id>
+  dump
+  stats
+  exit
+
+> malloc firstFit 100
+Allocated block with ID 1
+> malloc bestFit 50
+Allocated block with ID 2
+> malloc worstFit 150
+Allocated block with ID 3
+> free 2
+Freed block ID 2
+> stats
+Internal Fragmentation  = 0
+Total Memory = 1024
+Total Memory Used = 250
+Memory Utilization = 24.4141%
+External Fragmentation = 6.45995%
+Allocation Failure Rate = 0%
+> malloc worstFit 500
+Allocated block with ID 4
+> malloc bestFit 500
+Allocation failed
+> stats
+Internal Fragmentation  = 0
+Total Memory = 1024
+Total Memory Used = 750
+Memory Utilization = 73.2422%
+External Fragmentation = 18.2482%
+Allocation Failure Rate = 20%
+> malloc worstFit 40
+Allocated block with ID 5
+> stats
+Internal Fragmentation  = 0
+Total Memory = 1024
+Total Memory Used = 790
+Memory Utilization = 77.1484%
+External Fragmentation = 21.3675%
+Allocation Failure Rate = 16.6667%
+> exit
+kaushik@DESKTOP-4Q2P2D3:~/memory-simulator$

@@ -1,0 +1,105 @@
+Running Allocator Tests
+
+========== TEST: First Fit ==========
+Memory Dump
+[0 - 199] USED (ID = 1)
+[200 - 299] FREE
+[300 - 499] USED (ID = 3)
+[500 - 589] FREE
+[590 - 789] USED (ID = 5)
+[790 - 999] FREE
+Memory Dump
+[0 - 199] USED (ID = 1)
+[200 - 279] USED (ID = 6)
+[280 - 299] FREE
+[300 - 499] USED (ID = 3)
+[500 - 589] FREE
+[590 - 789] USED (ID = 5)
+[790 - 999] FREE
+
+========== TEST: Best Fit ==========
+Memory Dump
+[0 - 199] USED (ID = 1)
+[200 - 299] FREE
+[300 - 499] USED (ID = 3)
+[500 - 589] FREE
+[590 - 789] USED (ID = 5)
+[790 - 999] FREE
+Memory Dump
+[0 - 199] USED (ID = 1)
+[200 - 299] FREE
+[300 - 499] USED (ID = 3)
+[500 - 579] USED (ID = 6)
+[580 - 589] FREE
+[590 - 789] USED (ID = 5)
+[790 - 999] FREE
+
+========== TEST: Worst Fit ==========
+Memory Dump
+[0 - 199] USED (ID = 1)
+[200 - 299] FREE
+[300 - 499] USED (ID = 3)
+[500 - 589] FREE
+[590 - 789] USED (ID = 5)
+[790 - 999] FREE
+Memory Dump
+[0 - 199] USED (ID = 1)
+[200 - 299] FREE
+[300 - 499] USED (ID = 3)
+[500 - 589] FREE
+[590 - 789] USED (ID = 5)
+[790 - 869] USED (ID = 6)
+[870 - 999] FREE
+
+========== TEST: Free and Coalescing ==========
+Memory Dump
+[0 - 199] FREE
+[200 - 299] USED (ID = 2)
+[300 - 499] FREE
+[500 - 589] USED (ID = 4)
+[590 - 789] USED (ID = 5)
+[790 - 999] FREE
+Memory Dump
+[0 - 499] FREE
+[500 - 589] USED (ID = 4)
+[590 - 789] USED (ID = 5)
+[790 - 999] FREE
+
+========== TEST: Fragmentation ==========
+Memory Dump
+[0 - 199] FREE
+[200 - 299] USED (ID = 2)
+[300 - 499] FREE
+[500 - 589] USED (ID = 4)
+[590 - 789] USED (ID = 5)
+[790 - 999] FREE
+Internal Fragmentation  = 0
+Total Memory = 1000
+Total Memory Used = 390
+Memory Utilization = 39%
+External Fragmentation = 65.5738%
+Allocation Failure Rate = 0%
+
+========== TEST: Allocation Failure ==========
+Memory Dump
+[0 - 199] FREE
+[200 - 299] USED (ID = 2)
+[300 - 499] FREE
+[500 - 589] USED (ID = 4)
+[590 - 789] USED (ID = 5)
+[790 - 999] FREE
+Internal Fragmentation  = 0
+Total Memory = 1000
+Total Memory Used = 390
+Memory Utilization = 39%
+External Fragmentation = 65.5738%
+Allocation Failure Rate = 16.6667%
+
+Internal Fragmentation  = 0
+Total Memory = 1000
+Total Memory Used = 390
+Memory Utilization = 39%
+External Fragmentation = 65.5738%
+Allocation Failure Rate = 28.5714%
+
+All tests executed

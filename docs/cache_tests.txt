@@ -1,0 +1,80 @@
+Running Cache Simulator Tests
+
+========== TEST: Basic Hits ==========
+L1 Hits : 1
+L1 Misses : 2
+L1 Hit Ratio : 0.333333
+
+L2 Hits : 0
+L2 Misses : 2
+L2 Hit Ratio : 0
+
+Miss Propagation:
+  L1 -> L2 accesses : 2
+  L2 -> Memory accesses : 2
+
+========== TEST: Eviction & Demotion ==========
+L1 Hits : 1
+L1 Misses : 4
+L1 Hit Ratio : 0.2
+
+L2 Hits : 1
+L2 Misses : 3
+L2 Hit Ratio : 0.25
+
+Miss Propagation:
+  L1 -> L2 accesses : 4
+  L2 -> Memory accesses : 3
+
+========== TEST: FIFO ==========
+L1 Hits : 2
+L1 Misses : 3
+L1 Hit Ratio : 0.4
+
+L2 Hits : 0
+L2 Misses : 3
+L2 Hit Ratio : 0
+
+Miss Propagation:
+  L1 -> L2 accesses : 3
+  L2 -> Memory accesses : 3
+
+========== TEST: LRU ==========
+L1 Hits : 1
+L1 Misses : 4
+L1 Hit Ratio : 0.2
+
+L2 Hits : 1
+L2 Misses : 3
+L2 Hit Ratio : 0.25
+
+Miss Propagation:
+  L1 -> L2 accesses : 4
+  L2 -> Memory accesses : 3
+
+========== TEST: Stats Reset ==========
+L1 Hits : 0
+L1 Misses : 2
+L1 Hit Ratio : 0
+
+L2 Hits : 0
+L2 Misses : 2
+L2 Hit Ratio : 0
+
+Miss Propagation:
+  L1 -> L2 accesses : 2
+  L2 -> Memory accesses : 2
+After reset:
+L1 Hits : 0
+L1 Misses : 0
+L1 Hit Ratio : 0
+
+L2 Hits : 0
+L2 Misses : 0
+L2 Hit Ratio : 0
+
+Miss Propagation:
+  L1 -> L2 accesses : 0
+  L2 -> Memory accesses : 0
+
+All cache tests executed

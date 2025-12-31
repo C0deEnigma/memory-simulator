@@ -30,7 +30,7 @@ void CacheSimulator::access(int address)
     if(evicted_address!=-1) L2.insert(evicted_address);
 }
 
-void CacheSimulator::printStats()
+void CacheSimulator::printStats() const
 {
     int l1Hits=L1.getHits();
     int l1Misses=L1.getMisses();

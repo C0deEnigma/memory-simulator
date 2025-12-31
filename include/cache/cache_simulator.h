@@ -1,47 +1,20 @@
-#ifndef CACHE_LEVEL_H
-#define CACHE_LEVEL_H
+#ifndef CACHE_SIMULATOR_H
+#define CACHE_SIMULATOR_H
 
-#include <vector>
-#include <deque>
+#include "cache_level.h"
 
-// Replacement policy type
-enum ReplacementPolicy {
-    FIFO,
-    LRU
-};
-
-// Represents one cache block
-struct CacheLine
-{
-    int tag;
-};
-
-// Represents one cache level (L1 or L2)
-class CacheLevel
+class CacheSimulator
 {
 private:
-    int cacheSize;
-    int blockSize;
-    int associativity;
-    int numSets;
+    CacheLevel L1;
+    CacheLevel L2;
 
-    ReplacementPolicy policy;
-
-    // Each set is a list of cache lines
-    std::vector<std::deque<CacheLine>> sets;
-
-    int hits;
-    int misses;
+    int memoryAccesses;
 
 public:
-    CacheLevel(int cacheSize,
-               int blockSize,
-               int associativity,
-               ReplacementPolicy policy);
+    CacheSimulator(CacheLevel l1, CacheLevel l2);
 
-    // Returns true if hit, false if miss
-    bool access(int address);
-
+    void access(int address);
     void printStats() const;
     void resetStats();
 };

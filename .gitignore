@@ -1,0 +1,14 @@
+# Binaries
+memory-simulator
+test_cache
+test_allocator
+*.out
+*.exe
+
+# Object files
+*.o
+
+# IDE / OS files
+.vscode/
+.DS_Store
+

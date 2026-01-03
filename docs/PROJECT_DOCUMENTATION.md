@@ -330,6 +330,7 @@ Automated tests are preferred over relying solely on the CLI because:
 - they reduce human error during verification
 
 The CLI is retained primarily for interactive exploration, while tests serve as the primary validation mechanism.
+Additionally, workload input for CLI are provided in tests/allocator/input for each possible scenerio and their expected outputs are given in tests/allocator/expected/allocator_expected_outputs.txt.
 
 ---
 
@@ -556,6 +557,7 @@ Each test:
 - Compares results against expected behavior
 
 Sample outputs are saved in the `docs/` directory for reference and documentation.
+Expected outputs are given in tests/cache_expected_output.txt
 
 ---
 

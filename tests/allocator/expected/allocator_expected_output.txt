@@ -1,0 +1,192 @@
+====================================================
+EXPECTED OUTPUT — ALLOCATOR TEST WORKLOADS
+====================================================
+
+NOTE:
+- Memory dumps are written semantically (order + size + state).
+- Addresses are implementation-dependent and intentionally omitted.
+- Dump order is from low to high memory.
+- Block IDs must match allocation order.
+
+----------------------------------------------------
+TEST 1: FIRST FIT
+----------------------------------------------------
+
+Initial allocations:
+malloc 200 -> id=1
+malloc 100 -> id=2
+malloc 200 -> id=3
+malloc 90  -> id=4
+malloc 200 -> id=5
+
+After:
+free 2
+free 4
+
+EXPECTED MEMORY DUMP (before malloc 80):
+
+[USED id=1 size=200]
+[FREE size=100]
+[USED id=3 size=200]
+[FREE size=90]
+[USED id=5 size=200]
+[FREE size=210]
+
+Action:
+malloc firstFit 80 -> id=6
+
+EXPECTED MEMORY DUMP (after malloc 80):
+
+[USED id=1 size=200]
+[USED id=6 size=80]
+[FREE size=20]
+[USED id=3 size=200]
+[FREE size=90]
+[USED id=5 size=200]
+[FREE size=210]
+
+
+----------------------------------------------------
+TEST 2: BEST FIT
+----------------------------------------------------
+
+Same state before allocation as Test 1.
+
+Action:
+malloc bestFit 80 -> id=6
+
+EXPECTED MEMORY DUMP:
+
+[USED id=1 size=200]
+[FREE size=100]
+[USED id=3 size=200]
+[USED id=6 size=80]
+[FREE size=10]
+[USED id=5 size=200]
+[FREE size=210]
+
+
+NOTE:
+- Allocation must occur in the smallest sufficient free block (size=90).
+
+----------------------------------------------------
+TEST 3: WORST FIT
+----------------------------------------------------
+
+Same state before allocation as Test 1.
+
+Action:
+malloc worstFit 80 -> id=6
+
+EXPECTED MEMORY DUMP:
+
+[USED id=1 size=200]
+[FREE size=100]
+[USED id=3 size=200]
+[FREE size=90]
+[USED id=5 size=200]
+[USED id=6 size=80]
+[FREE size=130]
+
+
+NOTE:
+- Allocation must occur in the largest free block (size=210).
+
+----------------------------------------------------
+TEST 4: FREE AND COALESCING
+----------------------------------------------------
+
+Initial allocations:
+malloc 200 -> id=1
+malloc 100 -> id=2
+malloc 200 -> id=3
+malloc 90  -> id=4
+malloc 200 -> id=5
+
+After:
+free 1
+free 3
+
+EXPECTED MEMORY DUMP (before coalescing):
+
+[FREE size=200]
+[USED id=2 size=100]
+[FREE size=200]
+[USED id=4 size=90]
+[USED id=5 size=200]
+[FREE size=210]
+
+Action:
+free 2
+
+EXPECTED MEMORY DUMP (after coalescing):
+
+[FREE size=500]
+[USED id=4 size=90]
+[USED id=5 size=200]
+[FREE size=210]
+
+
+----------------------------------------------------
+TEST 5: FRAGMENTATION
+----------------------------------------------------
+
+After:
+free 1
+free 3
+
+EXPECTED MEMORY DUMP:
+
+[FREE size=200]
+[USED id=2 size=100]
+[FREE size=200]
+[USED id=4 size=90]
+[USED id=5 size=200]
+[FREE size=210]
+
+EXPECTED STATS:
+Total memory: 1000
+Used memory: 390
+Free memory: 610
+External fragmentation: 65.5738%
+
+----------------------------------------------------
+TEST 6: ALLOCATION FAILURE
+----------------------------------------------------
+
+EXPECTED MEMORY DUMP (before coalescing):
+
+[FREE size=200]
+[USED id=2 size=100]
+[FREE size=200]
+[USED id=4 size=90]
+[USED id=5 size=200]
+[FREE size=210]
+
+Action:
+malloc firstFit 250
+
+EXPECTED RESULT:
+Allocation failed
+
+EXPECTED STATS:
+Total memory: 1000
+Used memory: 390
+Free memory: 610
+Allocation Failures: 1/6
+
+----------------------------------------------------
+EDGE CASE: ZERO-SIZE ALLOCATION
+----------------------------------------------------
+
+Action:
+malloc firstFit 0
+
+EXPECTED RESULT:
+Allocation failed OR ignored
+
+Allocation Failures: 2/7
+
+----------------------------------------------------
+END OF EXPECTED OUTPUT
+----------------------------------------------------

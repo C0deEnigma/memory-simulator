@@ -1,0 +1,106 @@
+====================================================
+EXPECTED OUTPUT — CACHE SIMULATOR TESTS
+====================================================
+
+Cache Configuration:
+- L1: size=64, block=4, assoc=2, Number of sets=8
+- L2: size=128, block=4, assoc=4, Number of sets=8
+- Replacement Policies: FIFO and LRU
+- Inclusive cache with promotion and demotion
+
+----------------------------------------------------
+TEST 1: BASIC HITS
+----------------------------------------------------
+
+Access Trace:
+0, 64, 0
+
+EXPECTED BEHAVIOR:
+- Access 0: L1 miss, L2 miss
+- Access 64: L1 miss, L2 miss
+- Access 0: L1 hit
+
+EXPECTED STATS:
+L1 hits: 1
+L1 misses: 2
+L2 hits: 0
+L2 misses: 2
+
+----------------------------------------------------
+TEST 2: EVICTION AND DEMOTION
+----------------------------------------------------
+
+Access Trace:
+0, 32, 64, 64, 0
+
+EXPECTED BEHAVIOR:
+- 0 and 32 fill L1
+- Access 64 causes L1 eviction and demotion of 0 to L2
+- Second access to 64 is L1 hit
+- Access 0 results in L2 hit and promotion to L1
+
+EXPECTED STATS:
+L1 hits: 1
+L1 misses: 4
+L2 hits: 1
+L2 misses: 3
+
+----------------------------------------------------
+TEST 3: FIFO POLICY
+----------------------------------------------------
+
+Access Trace:
+1, 33, 1, 65, 33
+
+EXPECTED BEHAVIOR (FIFO):
+- FIFO eviction order preserved
+- 1 accessed later than 33 as well but since it the first one, it is evicted
+- Access 65 causes eviction of earliest inserted block
+- Final access to 33 results in L1 hit
+
+EXPECTED STATS:
+L1 hits: 2
+L1 misses: 3
+L2 hits: 0
+L2 misses: 3
+
+----------------------------------------------------
+TEST 4: LRU POLICY
+----------------------------------------------------
+
+Access Trace:
+1, 33, 1, 65, 33
+
+EXPECTED BEHAVIOR (LRU):
+- LRU eviction depends on most recent access
+- 1 was accessed later so although it was the first one in deque but it was used more recently
+- Hence, 33 evicted and demoted to L2
+- Access 65 evicts least recently used block (33)
+- Final access to 33 results in L2 hit
+
+EXPECTED STATS:
+L1 hits: 1
+L1 misses: 4
+L2 hits: 1
+L2 misses: 3
+
+----------------------------------------------------
+TEST 5: STATS RESET
+----------------------------------------------------
+
+Access Trace:
+0, 4
+
+EXPECTED BEHAVIOR:
+- Initial stats reflect 2 accesses
+- After resetStats(), all hit/miss counters reset to zero
+
+EXPECTED STATS AFTER RESET:
+L1 hits: 0
+L1 misses: 0
+L2 hits: 0
+L2 misses: 0
+
+----------------------------------------------------
+END OF EXPECTED OUTPUT
+----------------------------------------------------

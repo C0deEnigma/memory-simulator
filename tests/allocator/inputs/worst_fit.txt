@@ -1,0 +1,12 @@
+1000
+malloc firstFit 200
+malloc firstFit 100
+malloc firstFit 200
+malloc firstFit 90
+malloc firstFit 200
+free 2
+free 4
+dump
+malloc worstFit 80
+dump
+exit

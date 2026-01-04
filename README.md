@@ -20,6 +20,12 @@ The project is divided into modular components with a clear separation between i
 - Allocation statistics and memory utilization metrics
 - Interactive command-line interface
 
+#### Demo Video – Input Workload Execution
+
+https://youtu.be/N7AoMRchnzo
+
+-This video demonstrates the execution of predefined input workload files on the Memory Management Simulator using a terminal-based interface.
+
 ### Cache Simulator
 - Multilevel cache hierarchy (L1 and L2)
 - Configurable cache size, block size, and associativity
